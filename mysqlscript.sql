@@ -1,0 +1,6 @@
+CREATE DATABASE tooling;
+CREATE USER `webaccess` IDENTIFIED BY 'mypass';
+GRANT ALL ON tooling.* TO 'webaccess';
+FLUSH PRIVILEGES;
+SHOW DATABASES;
+exit
