@@ -27,4 +27,17 @@ UUID=<UUID of opt> /mnt/opt      xfs     defaults        0       0
 19. Configure access to NFS for clients within the same subnet, open /etc/exports file (sudo vi /etc/exports) and add the following code (/mnt/apps <Subnet-CIDR>(rw,sync,no_all_squash,no_root_squash, /mnt/logs <Subnet-CIDR>(rw,sync,no_all_squash,no_root_squash), /mnt/opt <Subnet-CIDR>(rw,sync,no_all_squash,no_root_squash))
 20. Save the file and run sudo exportfs -arv command
 21. Check which port is used by NFS and open it using Security Groups with rpcinfo -p | grep nfs command (In order for NFS server to be accessible from your client, you must also open following ports: TCP 111, UDP 111, UDP 2049)
-22. 
+
+  #  CONFIGURE THE DATABASE SERVER
+1. Launch a new EC2 instance with UBUNTU 20.4 Operating System
+2. Run dbserver.sh script (./dbserver.sh)
+  
+# Prepare the Web Servers
+1. Launch 3 new EC2 instance with RHEL Linux 8 Operating System.
+2. Run webserver.sh script (./webserver.sh) (change the private ip address for NFS Server)
+3. add following line to /etc/fstab (<NFS-Server-Private-IP-Address>:/mnt/apps /var/www nfs defaults 0 0)
+4. Deploy the tooling website’s code to the Webserver. Ensure that the html folder from the repository is deployed to /var/www/html
+5. Update the website’s configuration to connect to the database (in /var/www/html/functions.php file). Apply tooling-db.sql script to your database using this command (mysql -h <databse-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql)
+### Note 2: If you encounter 403 Error – check permissions to your /var/www/html folder and also disable SELinux sudo setenforce 0
+To make this change permanent – open following config file sudo vi /etc/sysconfig/selinux and set SELINUX=disabledthen restrt httpd.
+  
