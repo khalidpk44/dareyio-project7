@@ -1,6 +1,6 @@
 sudo yum install nfs-utils nfs4-acl-tools -y
 sudo mkdir /var/www
-sudo mount -t nfs -o rw,nosuid 172.31.31.215:/mnt/apps /var/www
+sudo mount -t nfs -o rw,nosuid 172.31.25.181:/mnt/apps /var/www
 sudo yum install httpd -y
 
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
